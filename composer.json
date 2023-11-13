@@ -1,0 +1,50 @@
+{
+    "name": "drjermy/my-ui",
+    "description": "A set of custom expectations for matching DOM selectors",
+    "keywords": [
+    ],
+    "homepage": "https://github.com/drjermy/my-ui",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jeremy Jones",
+            "email": "drjermy@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1"
+    },
+    "require-dev": {
+        "drjermy/pest-dom": "^0.0.4",
+        "laravel/pint": "^1.2",
+        "orchestra/testbench": "^8.3",
+        "spatie/ray": "^1.28",
+        "pestphp/pest": "^2.24",
+        "pestphp/pest-plugin": "^2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "MyUi\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
