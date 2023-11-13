@@ -20,8 +20,9 @@
     // Set icon, e.g. fa-times
     $iconClass = "fa-{$icon}";
 
+    $additionalClasses = '';
     if(isset($fw)) {
-        $additionalClasses = 'fa-fw';
+        $additionalClasses .= 'fa-fw';
     }
 
     // Final template vars
