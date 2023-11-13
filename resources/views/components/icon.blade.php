@@ -25,5 +25,5 @@
     @isset ($srOnly)
         <span class="sr-only">{{ $srOnly }}</span>
     @endisset
-    <i class="{{ $class }}" />
+    <i class="{{ $class }}"></i>
 </span>
