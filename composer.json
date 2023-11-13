@@ -33,6 +33,13 @@
             "Tests\\": "tests"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MyUi\\MyUiServiceProvider"
+            ],
+        }
+    },
     "scripts": {
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
