@@ -14,13 +14,21 @@ it('can alter the icon weight', function () {
         ->toHaveSelector('i[class="fa-light fa-times"]');
 });
 
+it('can set fixed-width', function () {
+    $html = $this->render('<x-ui::icon icon="times" fw />');
+
+    expect($html)->toHaveSelector('i[class="fa-regular fa-times fa-fw"]');
+});
+
 it('can alter the icon with a keyword', function ($weight, $class) {
     $html = $this->render('<x-ui::icon '.$weight.' icon="times" />');
 
     expect($html)->toHaveSelector('i')
-        ->toHaveSelector('i[class~="fa-times"]');
+        ->toHaveSelector('i[class~="fa-times"]')
+        ->toHaveSelector("i[class~=\"{$class}\"]");
 })->with([
     ['light', 'fa-light'],
+    ['duotone', 'fa-duotone'],
 ]);
 
 it('outputs some screen-read text', function () {
