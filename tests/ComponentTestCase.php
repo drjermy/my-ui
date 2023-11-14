@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use Gajus\Dindent\Exception\RuntimeException;
 use Gajus\Dindent\Indenter;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
 use MyUi\MyUiServiceProvider;

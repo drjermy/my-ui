@@ -93,3 +93,26 @@ it('renders some meta', function () {
 
     expect($html)->toBe($expected);
 });
+
+it('renders subheading as meta', function () {
+    $render = <<<'HTML'
+        <x-ui::heading heading="Test" subheading="This is some meta" />
+        HTML;
+
+    $html = $this->render($render);
+
+    $expected = <<<'HTML'
+        <div class="mb-6">
+            <div class="lg:flex lg:items-center lg:justify-between">
+                <div class="flex-1 min-w-0">
+                    <h2 class="text-2xl font-bold leading-7 text-gray-800 sm:text-3xl sm:leading-9 sm:truncate">
+                        Test 
+                    </h2>
+                    <div class="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap"> This is some meta </div>
+                </div>
+            </div>
+        </div>
+        HTML;
+
+    expect($html)->toBe($expected);
+});

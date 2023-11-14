@@ -1,5 +1,6 @@
 @props([
     'heading',
+    'subheading' => null,
     'meta' => null,
     'actions' => null,
 ])
@@ -7,6 +8,10 @@
 @php
     if (isset($heading)) {
         $slot = $heading;
+    }
+
+    if (isset($subheading)) {
+        $meta = $subheading;
     }
 @endphp
 
