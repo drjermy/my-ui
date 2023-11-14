@@ -8,6 +8,7 @@
     'icon' => null,
     'disabled' => null,
     'text' => null,
+    'href' => null,
 ])
 
 @php
@@ -82,9 +83,12 @@
         'semibold' => 'regular',
         default => 'light',
     };
+
+    $tag = isset($href) ? 'a' : 'button';
+    $defn = isset($href) ? "href=\"$href\"" : 'type="button"';
 @endphp
 
-<button type="button" {{ $attributes->merge(['class' => $buttonCSS]) }} @if($disabled)disabled="disabled"@endif>
+<{{ $tag }} {!! $defn !!} {{ $attributes->merge(['class' => $buttonCSS]) }} @if($disabled)disabled="disabled"@endif>
     @if ($circular)
         <div class="h-5 w-5 flex justify-center items-center">
             <x-ui::icon :icon="$icon" />
@@ -95,4 +99,4 @@
         @endif
         {{ $slot }}
     @endif
-</button>
+</{{ $tag }}>
