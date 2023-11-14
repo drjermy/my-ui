@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use Gajus\Dindent\Exception\InvalidArgumentException;
 use Gajus\Dindent\Exception\RuntimeException;
 use Gajus\Dindent\Indenter;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
@@ -25,9 +24,6 @@ abstract class ComponentTestCase extends TestCase
         return [MyUiServiceProvider::class];
     }
 
-    /**
-     * @throws RuntimeException
-     */
     public function render($blade): string
     {
         $html = $this->blade($blade)->__toString();

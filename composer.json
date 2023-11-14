@@ -14,7 +14,8 @@
     ],
     "require": {
         "php": "^8.1",
-        "gajus/dindent": "^2.0"
+        "gajus/dindent": "^2.0",
+        "gehrisandro/tailwind-merge-php": "^1.0"
     },
     "require-dev": {
         "drjermy/pest-dom": "^0.0.4",

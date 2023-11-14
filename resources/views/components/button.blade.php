@@ -1,3 +1,4 @@
+@php use MyUi\Support\Attr; @endphp
 @props([
     'style' => 'primary', // primary, secondary, soft
     'size' => 'md', // xs, sm, md, lg, xl
@@ -11,7 +12,7 @@
 
 @php
     $boolAttributesList = [
-        'weight' => ['light', 'solid']
+        'style' => ['primary', 'secondary', 'soft', 'danger']
     ];
 
     foreach($boolAttributesList as $variableName => $boolAttributes) {
@@ -19,6 +20,7 @@
             if (isset($attributes[$boolAttribute])) {
                 $$variableName = $boolAttribute;
             }
+            unset($attributes[$boolAttribute]);
         }
     }
 
@@ -31,15 +33,9 @@
             foreach($declarations as $variableName => $variableValue) {
                 $$variableName = $variableValue;
             }
+            unset($attributes[$boolAttribute]);
         }
     }
-
-    $iconWeight = match ($weight) {
-        'semibold' => 'regular',
-        'medium' => 'light',
-        'light' => 'light',
-        default => 'light',
-    };
 
     $rounded = $rounded ? 'rounded' : 'default';
 
@@ -47,64 +43,45 @@
         $slot = $text;
     }
 
-    $styleCSS = [
-        'primary' => 'bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
-        'secondary' => 'bg-white text-gray-900 ring-gray-300 hover:bg-gray-50 ring-1 ring-inset',
-        'soft' => 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100',
-        'danger' => 'bg-red-600 text-white border-transparent hover:bg-red-500 active:bg-red-700 focus:outline-none focus:border-red-300'
-    ][$style];
-
-    $shapeCSS = [
-        'default' => [
-            'xs' => 'rounded',
-            'sm' => 'rounded',
-            'md' => 'rounded-md',
-            'lg' => 'rounded-md',
-            'xl' => 'rounded-md',
-        ],
-        'rounded' => [
-            'xs' => 'rounded-full',
-            'sm' => 'rounded-full',
-            'md' => 'rounded-full',
-            'lg' => 'rounded-full',
-            'xl' => 'rounded-full',
-        ],
-    ][$rounded][$size];
-
-    $sizeCSS = [
-        'xs' => 'px-2.5 py-1 text-xs',
-        'sm' => 'px-2.5 py-1 text-sm',
-        'md' => 'px-3 py-1.5 text-sm',
-        'lg' => 'px-3.5 py-2 text-sm',
-        'xl' => 'px-4 py-2.5 text-sm',
-    ][$size];
-
-    if ($circular) {
-        $shapeCSS = 'rounded-full';
-        $sizeCSS = [
+    $buttonCSS = (new Attr())
+        ->match($style, [
+            'primary' => 'bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
+            'secondary' => 'bg-white text-gray-900 ring-gray-300 hover:bg-gray-50 ring-1 ring-inset',
+            'soft' => 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100',
+            'danger' => 'bg-red-600 text-white border-transparent hover:bg-red-500 active:bg-red-700 focus:outline-none focus:border-red-300'
+        ], 'primary')
+        ->match($size, [
+            'xs' => 'px-2.5 py-1',
+            'sm' => 'px-2.5 py-1',
+            'md' => 'px-3 py-1.5',
+            'lg' => 'px-3.5 py-2',
+            'xl' => 'px-4 py-2.5',
+        ], 'md')
+        ->match($size, [
             'xs' => 'p-1',
             'sm' => 'p-1',
             'md' => 'p-1.5',
             'lg' => 'p-2',
             'xl' => 'p-2.5',
-        ][$size];
-    }
+        ], 'md', $circular === true)
+        ->add('text-sm')
+        ->add('text-xs', $size === 'xs')
+        ->match($weight, [
+            'light' => 'font-light',
+            'medium' => 'font-medium',
+            'solid' => 'font-semibold',
+        ], 'medium')
+        ->add('rounded-md')
+        ->add('rounded', $size === 'xs' || $size === 'sm')
+        ->add('rounded-full', $rounded === 'rounded' || $circular)
+        ->add('shadow-sm')
+        ->add('opacity-50 cursor-not-allowed', $disabled == 'disabled')
+        ->merge();
 
-    $genericCSS = match($weight) {
-        'light' => 'font-light',
-        'solid' => 'font-semibold',
-        default => 'font-medium',
+    $iconWeight = match ($weight) {
+        'semibold' => 'regular',
+        default => 'light',
     };
-
-    $genericCSS .= ' shadow-sm';
-
-    $buttonCSS = "$styleCSS $shapeCSS $sizeCSS $genericCSS";
-
-    if ($disabled == 'disabled') {
-        $buttonCSS .= " opacity-50 cursor-not-allowed";
-    }
-
-    $buttonCSS = trim(str_replace('  ', ' ', $buttonCSS));
 @endphp
 
 <button type="button" {{ $attributes->merge(['class' => $buttonCSS]) }} @if($disabled)disabled="disabled"@endif>
