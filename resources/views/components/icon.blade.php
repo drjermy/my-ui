@@ -2,37 +2,34 @@
     'icon',
     'weight' => 'regular',
     'sr' => null,
-
-    'light' => null,
-    'duotone' => null,
-
     'fw' => null,
 ])
 
 @php
-    // Set weight, e.g. fa-regular
-    $weightClass = 'fa-'.match (true) {
-        $light => 'light',
-        $duotone => 'duotone',
-        default => $weight,
-    };
+    use MyUi\Support\Attr;
 
-    // Set icon, e.g. fa-times
-    $iconClass = "fa-{$icon}";
+    $boolAttributesList = [
+        'weight' => ['light', 'regular', 'duotone']
+    ];
 
-    $additionalClasses = '';
-    if(isset($fw)) {
-        $additionalClasses .= 'fa-fw';
+    foreach($boolAttributesList as $variableName => $boolAttributes) {
+        foreach ($boolAttributes as $boolAttribute) {
+            if (isset($attributes[$boolAttribute])) {
+                $$variableName = $boolAttribute;
+            }
+            unset($attributes[$boolAttribute]);
+        }
     }
 
-    // Final template vars
-    $srOnly = $sr;
-    $class = "{$weightClass} {$iconClass} {$additionalClasses}";
+    $iconClass = (new Attr())
+        ->add("fa-$weight")
+        ->add("fa-$icon")
+        ->add('fa-fw', isset($fw));
 @endphp
 
 <span {{ $attributes }}>
-    @isset ($srOnly)
-        <span class="sr-only">{{ $srOnly }}</span>
+    @isset ($sr)
+        <span class="sr-only">{{ $sr }}</span>
     @endisset
-    <i class="{{ $class }}"></i>
+    <i class="{{ $iconClass }}"></i>
 </span>
