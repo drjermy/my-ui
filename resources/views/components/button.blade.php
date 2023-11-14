@@ -85,10 +85,10 @@
     };
 
     $tag = isset($href) ? 'a' : 'button';
-    $defn = isset($href) ? "href=\"$href\"" : 'type="button"';
+    $defn = isset($href) ? "href=\"$href\"" : '';
 @endphp
 
-<{{ $tag }} {!! $defn !!} {{ $attributes->merge(['class' => $buttonCSS]) }} @if($disabled)disabled="disabled"@endif>
+<{{ $tag }} type="button" {!! $defn !!} {{ $attributes->merge(['class' => $buttonCSS]) }} @if($disabled)disabled="disabled"@endif>
     @if ($circular)
         <div class="h-5 w-5 flex justify-center items-center">
             <x-ui::icon :icon="$icon" />

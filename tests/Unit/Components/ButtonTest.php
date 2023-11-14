@@ -139,7 +139,7 @@ describe('anchor', function () {
 
         $classes = 'bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 px-3 py-1.5 text-sm font-medium rounded-md shadow-sm';
         $expected = <<<HTML
-            <a href="$href" class="$classes"> Test Button </a>
+            <a type="button" href="$href" class="$classes"> Test Button </a>
             HTML;
 
         expect($html)->toBe($expected);
