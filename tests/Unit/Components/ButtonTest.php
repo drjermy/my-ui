@@ -130,6 +130,20 @@ describe('boolean defaults', function () {
     })->with([
         ['add', 'bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 px-3 py-1.5 text-sm font-medium rounded-md shadow-sm', 'Add', 'fa-light fa-plus'],
     ]);
+
+    it('allows a circle definition', function () {
+        $html = $this->render('<x-ui::button circle icon="times" />');
+
+        $expected = <<<'HTML'
+            <button type="button" class="bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 p-2 text-sm font-medium rounded-full shadow-sm">
+                <div class="h-5 w-5 flex justify-center items-center">
+                    <span><i class="fa-regular fa-times"></i></span>
+                </div>
+            </button>
+            HTML;
+
+        expect($html)->toBe($expected);
+    });
 });
 
 describe('anchor', function () {

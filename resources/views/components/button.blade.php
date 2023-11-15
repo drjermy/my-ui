@@ -27,6 +27,7 @@
 
     $boolAttributeSet = [
         'add' => ['style' => 'primary', 'text' => 'Add', 'icon' => 'plus'],
+        'circle' => ['circular' => true, 'size' => 'lg', 'icon' => 'times'],
     ];
 
     foreach($boolAttributeSet as $boolAttribute => $declarations) {
