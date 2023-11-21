@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\MessageBag;
+
 it('renders a textarea', function () {
     $html = $this->render('<x-ui::textarea />');
 
@@ -40,6 +42,14 @@ describe('name and id', function () {
             ->toHaveSelectorWithAttributeValue('textarea', 'name', 'title')
             ->toHaveSelectorWithAttributeValue('textarea', 'id', 'title');
     });
+
+    it('autogenerates name from wire:model.live', function () {
+        $html = $this->render('<x-ui::textarea wire:model.live="title" />');
+
+        expect($html)
+            ->toHaveSelectorWithAttributeValue('textarea', 'name', 'title')
+            ->toHaveSelectorWithAttributeValue('textarea', 'id', 'title');
+    });
 });
 
 describe('label and placeholder', function () {
@@ -52,7 +62,7 @@ describe('label and placeholder', function () {
             ->not->toHaveSelectorWithAttribute('textarea', 'placeholder');
     });
 
-    it('has a label that matches the input', function () {
+    it('has a label that matches the textarea', function () {
         $html = $this->render('<x-ui::textarea name="tester" label="Test" />');
 
         expect($html)
@@ -140,5 +150,27 @@ describe('errors', function () {
 
         expect($html)
             ->toHaveSelectorWithValue('#test-error', 'Required');
+    });
+
+    it('renders a specific error from the error bag', function () {
+
+        $errors = new MessageBag();
+        $errors->add('test', 'Required');
+
+        $html = $this->render('<x-ui::textarea name="test" :errors="$errors" />', ['errors' => $errors]);
+
+        expect($html)
+            ->toHaveSelectorWithValue('#test-error', 'Required');
+    });
+
+    it('overwrites the a specific error from the error bag', function () {
+
+        $errors = new MessageBag();
+        $errors->add('test', 'Required');
+
+        $html = $this->render('<x-ui::textarea name="test" :errors="$errors" error="Another" />', ['errors' => $errors]);
+
+        expect($html)
+            ->toHaveSelectorWithValue('#test-error', 'Another');
     });
 });
