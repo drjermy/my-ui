@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\MessageBag;
+
 it('renders an input', function () {
     $html = $this->render('<x-ui::input />');
 
@@ -43,6 +45,14 @@ describe('name and id', function () {
 
     it('autogenerates name from wire:model', function () {
         $html = $this->render('<x-ui::input wire:model="title" />');
+
+        expect($html)
+            ->toHaveSelectorWithAttributeValue('input', 'name', 'title')
+            ->toHaveSelectorWithAttributeValue('input', 'id', 'title');
+    });
+
+    it('autogenerates name from wire:model.live', function () {
+        $html = $this->render('<x-ui::input wire:model.live="title" />');
 
         expect($html)
             ->toHaveSelectorWithAttributeValue('input', 'name', 'title')
@@ -123,5 +133,27 @@ describe('errors', function () {
 
         expect($html)
             ->toHaveSelectorWithValue('#test-error', 'Required');
+    });
+
+    it('renders a specific error from the error bag', function () {
+
+        $errors = new MessageBag();
+        $errors->add('test', 'Required');
+
+        $html = $this->render('<x-ui::input name="test" :errors="$errors" />', ['errors' => $errors]);
+
+        expect($html)
+            ->toHaveSelectorWithValue('#test-error', 'Required');
+    });
+
+    it('overwrites the a specific error from the error bag', function () {
+
+        $errors = new MessageBag();
+        $errors->add('test', 'Required');
+
+        $html = $this->render('<x-ui::input name="test" :errors="$errors" error="Another" />', ['errors' => $errors]);
+
+        expect($html)
+            ->toHaveSelectorWithValue('#test-error', 'Another');
     });
 });

@@ -7,12 +7,13 @@
     'add_clearing' => true,
     'dusk' => null,
     'error' => null,
+    'errors' => null,
 ])
 
 @php
     if (is_null($name)) {
-        if (isset($attributes['wire:model'])) {
-            $name = $attributes['wire:model'];
+        if ($attributes->whereStartsWith('wire:model')->first()) {
+            $name = $attributes->whereStartsWith('wire:model')->first();
         } else {
             $name = 'input-'.uniqid();
         }
@@ -29,6 +30,10 @@
     if (isset($dusk)) {
         $dusk = is_string($dusk) ? $dusk : 'input-'.$name;
     }
+
+    if (isset($errors) && !isset($error)) {
+        $error = $errors->first($name);
+    };
 
     $wrapperBaseCSS = 'relative w-full';
     $wrapperMarginCSS = $add_clearing ? 'mb-3' : '';

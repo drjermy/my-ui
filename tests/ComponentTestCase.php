@@ -23,9 +23,9 @@ abstract class ComponentTestCase extends TestCase
         return [MyUiServiceProvider::class];
     }
 
-    public function render($blade): string
+    public function render($blade, $data = []): string
     {
-        $html = $this->blade($blade)->__toString();
+        $html = $this->blade($blade, $data)->__toString();
 
         $filters = [
             '/<!--([^\[|(<!)].*)/' => '', // Remove HTML Comments (breaks with HTML5 Boilerplate)
